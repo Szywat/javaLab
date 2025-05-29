@@ -1,31 +1,39 @@
 public class MoneyBag {
-    private int amount;
+    private int balance;
 
-    public MoneyBag(int amount) {
-        if (amount < 0 ) {
-            throw new IllegalArgumentException("Nie można mieć pieniędzy na minusie!");
+    public MoneyBag(int startingBalance) {
+        if (startingBalance < 0) {
+            throw new IllegalArgumentException("Balans początkowy nie może być mniejszy od 0!");
         }
-        this.amount = amount;
-    }
-    public int getAmount() {
-        return amount;
+        if (startingBalance > GameConfig.MONEY_LIMIT) {
+            throw new IllegalArgumentException("Balans początkowy nie może być większy od ustawionego limitu " + GameConfig.MONEY_LIMIT);
+        }
+        this.balance = startingBalance;
     }
 
-    public void addAmount(int amount) {
+    public int getBalance() {return balance;}
+    public void addMoney(int amount) {
         if (amount < 0) {
-            throw new IllegalArgumentException("Nie można dodać ujemnych pieniędzy!");
+            throw new IllegalArgumentException("Nie można dodać ujemnej kwoty!");
         }
-        this.amount += amount;
+        balance += amount;
+        if (balance > GameConfig.MONEY_LIMIT) {
+            balance = GameConfig.MONEY_LIMIT;
+        };
     }
-
-    public void subtractAmount(int amount) {
+    public boolean spendMoney(int amount) {
         if (amount < 0) {
-            throw new IllegalArgumentException("Nie można odjąć ujemnych pieniędzy!");
+            throw new IllegalArgumentException("Nie można wydać ujemnej kwoty pieniędzy!");
         }
-        this.amount -= amount;
+        if (amount <= balance) {
+            balance -= amount;
+            return true;
+        } else {
+            return false;
+        }
     }
-
-
-
-
+    @Override
+    public String toString() {
+        return "Balans: " + balance + "$";
+    }
 }
