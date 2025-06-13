@@ -1,9 +1,13 @@
-import java.util.Scanner;
+import javax.swing.SwingUtilities;
 
 public class Main {
-
     public static void main(String[] args) {
-        Game.RunGame();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                GameGUI gameGUI = new GameGUI();
+                gameGUI.setVisible(true);
+            }
+        });
     }
-
 }
